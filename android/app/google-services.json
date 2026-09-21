@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "893849436707",
+    "project_id": "cgvmovie-f7c0f",
+    "storage_bucket": "cgvmovie-f7c0f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893849436707:android:43e8a71d733b1e53b86796",
+        "android_client_info": {
+          "package_name": "com.example.cgv_movie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiQ9QC2Ty4ul4NLnCjCiOW8SCZ6o3QY0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

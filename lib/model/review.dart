@@ -1,0 +1,17 @@
+class Review {
+  final String id;
+  final int movieId;
+  final String userName;
+  final double rating;
+  final String comment;
+  final DateTime createdAt;
+
+  Review({
+    required this.id,
+    required this.movieId,
+    required this.userName,
+    required this.rating,
+    required this.comment,
+    required this.createdAt,
+  });
+}
