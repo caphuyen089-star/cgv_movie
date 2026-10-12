@@ -37,7 +37,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     contentPadding: const EdgeInsets.all(8),
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(4),
-                      child: Image.network(item['image']!, width: 60, height: 90, fit: BoxFit.cover),
+                      child: Image.asset('assets/images/${item['image']!}', width: 60, height: 90, fit: BoxFit.cover),
                     ),
                     title: Text(item['title']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                     subtitle: Padding(

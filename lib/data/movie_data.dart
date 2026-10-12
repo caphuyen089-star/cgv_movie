@@ -3,16 +3,17 @@ import '../model/movie.dart';
 final List<Movie> movieList = [
   Movie(
     id: 1,
-    title: "Avatar: Tạm Biệt GOHAN",
-    image: "gohan.jpg",
-    banner: "banner_gohan.jpg",
+    title: "Avatar: BỐ GIÀ",
+    image: "bogia.jpg",
+    banner: "banner_bogia.jpg",
     trailer: "https://youtu.be/d9MyW72ELq0",
     description:
-        "Suốt 10 năm đằng đẵng ,chú chó hoang lông trắng với chiếc mũi đỏ mang tên 'Gohan'cứ thế phiêu dạt giữa cuộc đời.",
+        " Bộ phim kết thúc với thông điệp rằng: Chúng ta có nhiều thời gian, bố mẹ thì không, hãy chọn yêu thương khi còn có thể",
     genre: "Gia đình",
     duration: 192,
     rating: 8.6,
     releaseDate: "2026-5-15",
+    category: "Đang chiếu", // 🟢 Thêm danh mục
   ),
 
   Movie(
@@ -27,6 +28,7 @@ final List<Movie> movieList = [
     duration: 120 ,
     rating: 9.2,
     releaseDate: "2026-05-8",
+    category: "Đang chiếu", // 🟢 Thêm danh mục
   ),
 
   Movie(
@@ -41,21 +43,24 @@ final List<Movie> movieList = [
     duration: 165,
     rating: 8.8,
     releaseDate: "2026-07-01",
+    category: "Đặc biệt", // 🟢 Thêm danh mục
   ),
 
   Movie(
     id: 4,
-    title: "Supergirl",
-    image: "supergo.jpg",
-    banner: "supergirl_banner.jpg",
+    title: "Trại Buôn Người ",
+    image: "traibuonnguoi.jpg",
+    banner: "traibuonnguoi_banner.jpg",
     trailer: "https://youtu.be/VQRLujxTm3c",
     description:
-        "Supergirl-Bom tấn mới nhất từ DC studio- sẽ chính đổ bộ trên rạp chiếu toàn cấu.",
-    genre: "Hành động,phiêu lưu",
-    duration: 108,
+        "“Trại Buôn Người” là phim hành động – giật gân Việt Nam ra rạp ngày 25/09/2026, dài 135 phút, do đạo diễn Toni Dương Bảo Anh thực hiện và nhanh chóng đạt hơn 100 tỷ đồng chỉ sau 3,5 ngày chiếu.",
+    genre: "Hành động, giật gân, sinh tồn",
+    duration: 135,
     rating: 8.9,
-    releaseDate: "2026-06-26",
+    releaseDate: "25/09/2026",
+    category: "Đặc biệt", // 🟢 Thêm danh mục
   ),
+
   Movie(
     id: 5,
     title: "CÂU CHUYỆN ĐỒ CHƠI 5",
@@ -68,8 +73,10 @@ final List<Movie> movieList = [
     duration: 102,
     rating: 8.10,
     releaseDate: "19/06/2026",
+    category: "Sắp chiếu", // 🟢 Thêm danh mục
   ),
-   Movie(
+
+  Movie(
     id: 6,
     title: "CÔ BÉ PONYO",
     image: "ponyo.jpg",
@@ -81,6 +88,7 @@ final List<Movie> movieList = [
     duration: 101,
     rating: 8.10,
     releaseDate: " 12/06/2026",
+    category: "Sắp chiếu", // 🟢 Thêm danh mục
   ),
   
   Movie(
@@ -95,5 +103,6 @@ final List<Movie> movieList = [
     duration: 133,
     rating: 8.10,
     releaseDate: " 19/06/2026",
+    category: "Sắp chiếu", // 🟢 Thêm danh mục
   ),
 ];

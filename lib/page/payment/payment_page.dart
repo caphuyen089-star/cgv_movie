@@ -431,16 +431,20 @@ class _PaymentPageState extends State<PaymentPage> {
                             return '${f.name} x$qty';
                           }).toList();
 
+                          final showTimeDisplay = (bookingProvider.selectedTime != null && bookingProvider.selectedDate != null)
+                              ? '${bookingProvider.selectedTime} • ${bookingProvider.selectedDate}'
+                              : '19:00 - Hôm nay';
+
                           final newTicket = Ticket(
                             id: DateTime.now().millisecondsSinceEpoch,
                             userId: 1,
                             movieId: movie.id,
                             movieTitle: movie.title,
                             movieImage: movie.image,
-                            cinemaId: 1,
-                            roomId: 3,
+                            cinemaId: bookingProvider.selectedCinemaId ?? 1,
+                            roomId: 1,
                             seats: List<String>.from(selectedSeats),
-                            showTime: '19:00 - Hôm nay',
+                            showTime: showTimeDisplay,
                             totalPrice: totalPayment.toDouble(),
                             foods: foodNames,
                           );
@@ -556,13 +560,13 @@ class _PaymentPageState extends State<PaymentPage> {
                                                         ],
                                                       ),
                                                       const SizedBox(height: 20),
-                                                      const Row(
+                                                      Row(
                                                         children: [
                                                           Icon(Icons.location_on, color: Colors.grey, size: 16),
                                                           SizedBox(width: 6),
                                                           Expanded(
                                                             child: Text(
-                                                              'CGV Vincom Đồng Khởi',
+                                                              bookingProvider.selectedCinemaName ?? 'CGV Cinema',
                                                               style: TextStyle(color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
                                                             ),
                                                           ),
@@ -578,7 +582,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                           children: [
-                                                            _buildTicketDetail('SUẤT CHIẾU', '19:00', 'Hôm nay'),
+                                                            _buildTicketDetail('SUẤT CHIẾU', bookingProvider.selectedTime ?? '19:00', bookingProvider.selectedDate ?? 'Hôm nay'),
                                                             Container(width: 1, height: 30, color: Colors.white10),
                                                             _buildTicketDetail('GHẾ', seatsDisplay, '', isHighlight: true),
                                                             Container(width: 1, height: 30, color: Colors.white10),

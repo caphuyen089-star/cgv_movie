@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'change_password_page.dart'; // 👈 Nhớ import file đổi mật khẩu vào đây
+import 'package:firebase_auth/firebase_auth.dart';
+import 'change_password_page.dart';
+import 'voucher_page.dart';
+import '../ticket/ticket_history_page.dart';
+import '../login/login_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final displayName = currentUser?.displayName ??
+        (currentUser?.email != null ? currentUser!.email!.split('@')[0].toUpperCase() : 'THANH HUYỀN');
+    final emailDisplay = currentUser?.email ?? 'Mã số: 9012 3456 7890';
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -47,8 +56,8 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 25),
-                  const Text('THANH HUYỀN', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500)),
-                  const Text('Mã số: 9012 3456 7890', style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  Text(displayName, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500)),
+                  Text(emailDisplay, style: const TextStyle(color: Colors.white70, fontSize: 13)),
                   const SizedBox(height: 20),
                   
                   // Barcode giả lập
@@ -83,24 +92,60 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // 3. Danh sách Menu
-            _buildMenuListTile(Icons.history, 'Lịch sử đặt vé', () {}),
-            _buildMenuListTile(Icons.card_giftcard, 'Đổi quà tặng', () {}),
-            _buildMenuListTile(Icons.person_outline, 'Thông tin cá nhân', () {}),
-            
-            // 👈 Bấm vào đây để chuyển sang trang Đổi mật khẩu
+            _buildMenuListTile(Icons.history, 'Lịch sử đặt vé', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const TicketHistoryPage()),
+              );
+            }),
+            _buildMenuListTile(Icons.card_giftcard, 'Đổi quà tặng | Voucher', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const VoucherPage()),
+              );
+            }),
             _buildMenuListTile(Icons.security, 'Đổi mật khẩu', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ChangePasswordPage()),
+                MaterialPageRoute(builder: (_) => const ChangePasswordPage()),
               );
             }),
             
             const SizedBox(height: 30),
             
             // Nút đăng xuất
-            TextButton(
-              onPressed: () {},
-              child: const Text('ĐĂNG XUẤT', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16)),
+            TextButton.icon(
+              onPressed: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    backgroundColor: Colors.grey[900],
+                    title: const Text('Đăng xuất', style: TextStyle(color: Colors.white)),
+                    content: const Text('Bạn có chắc chắn muốn đăng xuất khỏi tài khoản?', style: TextStyle(color: Colors.white70)),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('HỦY', style: TextStyle(color: Colors.grey)),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text('ĐĂNG XUẤT', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (confirm == true) {
+                  await FirebaseAuth.instance.signOut();
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginPage()),
+                    (route) => false,
+                  );
+                }
+              },
+              icon: const Icon(Icons.logout, color: Colors.red),
+              label: const Text('ĐĂNG XUẤT', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16)),
             )
           ],
         ),

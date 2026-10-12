@@ -3,11 +3,25 @@ import '../data/movie_data.dart';
 import '../model/movie.dart';
 
 class MovieProvider extends ChangeNotifier {
-  final List<Movie> _movies = movieList;
+  // Danh sách gốc chứa tất cả các phim
+  final List<Movie> _allMovies = List.from(movieList);
+  
+  // Danh sách phim hiển thị trên giao diện (đã qua lọc)
+  List<Movie> _filteredMovies = List.from(movieList);
+  
   Movie? _selectedMovie;
 
-  List<Movie> get movies => _movies;
+  // Getter trả về danh sách phim đã lọc cho UI
+  List<Movie> get movies => _filteredMovies;
   Movie? get selectedMovie => _selectedMovie;
+
+  // 🟢 HÀM LỌC PHIM CỦA BẠN DÙNG TRONG ONTAP
+  void filterMovies(String category) {
+    _filteredMovies = _allMovies.where((movie) {
+      return movie.category == category;
+    }).toList();
+    notifyListeners(); // Cập nhật lại giao diện ngay
+  }
 
   // Chọn phim
   void selectMovie(Movie movie) {
@@ -23,26 +37,34 @@ class MovieProvider extends ChangeNotifier {
 
   // Thêm phim mới
   void addMovie(Movie newMovie) {
-    _movies.add(newMovie);
-    notifyListeners(); // Thông báo cập nhật sang trang đặt vé ngay lập tức
+    _allMovies.add(newMovie);
+    _filteredMovies.add(newMovie);
+    notifyListeners();
   }
 
-  // Xóa phim theo ID và đồng bộ toàn app
+  // Xóa phim theo ID
   void deleteMovie(int id) {
-    _movies.removeWhere((movie) => movie.id == id);
+    _allMovies.removeWhere((movie) => movie.id == id);
+    _filteredMovies.removeWhere((movie) => movie.id == id);
     if (_selectedMovie?.id == id) {
       _selectedMovie = null;
     }
-    notifyListeners(); // 🔴 Xóa bên Admin -> Màn hình đặt vé tự động biến mất phim
+    notifyListeners();
   }
 
-  // Cập nhật (Sửa) thông tin phim
+  // Cập nhật thông tin phim
   void updateMovie(Movie updatedMovie) {
-    final index = _movies.indexWhere((m) => m.id == updatedMovie.id);
-    if (index != -1) {
-      _movies[index] = updatedMovie;
-      notifyListeners(); // Thông báo cập nhật thông tin mới
+    final indexAll = _allMovies.indexWhere((m) => m.id == updatedMovie.id);
+    if (indexAll != -1) {
+      _allMovies[indexAll] = updatedMovie;
     }
+
+    final indexFilter = _filteredMovies.indexWhere((m) => m.id == updatedMovie.id);
+    if (indexFilter != -1) {
+      _filteredMovies[indexFilter] = updatedMovie;
+    }
+
+    notifyListeners();
   }
 
   // Phê duyệt hoặc từ chối phim
@@ -50,9 +72,9 @@ class MovieProvider extends ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 300));
     final int parsedId = movieId is int ? movieId : int.tryParse(movieId.toString()) ?? -1;
 
-    final index = _movies.indexWhere((m) => m.id == parsedId);
+    final index = _allMovies.indexWhere((m) => m.id == parsedId);
     if (index != -1) {
-      _movies[index].status = isApprove ? 'APPROVED' : 'REJECTED';
+      _allMovies[index].status = isApprove ? 'APPROVED' : 'REJECTED';
       notifyListeners();
       return true;
     }
@@ -61,7 +83,7 @@ class MovieProvider extends ChangeNotifier {
 
   // Tìm kiếm phim
   List<Movie> searchMovie(String keyword) {
-    return _movies.where((movie) {
+    return _allMovies.where((movie) {
       return movie.title.toLowerCase().contains(keyword.toLowerCase());
     }).toList();
   }

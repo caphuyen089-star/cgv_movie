@@ -20,6 +20,30 @@ class BookingProvider with ChangeNotifier {
   String? _appliedVoucherCode;
   double _discountAmount = 0;
 
+  // 📍 THÊM: Biến quản lý Suất chiếu & Rạp
+  String? _selectedDate;
+  String? _selectedTime;
+  String? _selectedCinemaName;
+  int? _selectedCinemaId;
+
+  String? get selectedDate => _selectedDate;
+  String? get selectedTime => _selectedTime;
+  String? get selectedCinemaName => _selectedCinemaName;
+  int? get selectedCinemaId => _selectedCinemaId;
+
+  void setSchedule({
+    required String date,
+    required String time,
+    required String cinemaName,
+    int? cinemaId,
+  }) {
+    _selectedDate = date;
+    _selectedTime = time;
+    _selectedCinemaName = cinemaName;
+    _selectedCinemaId = cinemaId;
+    notifyListeners();
+  }
+
   // 🛠️ Danh sách lưu trữ vé đã đặt động
   final List<Map<String, String>> _bookedTickets = [
     {
@@ -171,6 +195,11 @@ class BookingProvider with ChangeNotifier {
     _selectedSeats.clear();
     _foodQuantities.clear();
     removeVoucher(); // Reset voucher
+
+    _selectedDate = null;
+    _selectedTime = null;
+    _selectedCinemaName = null;
+    _selectedCinemaId = null;
     
     _remainingSeconds = 0;
     _countdownTimer?.cancel();

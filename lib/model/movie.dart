@@ -10,6 +10,7 @@ class Movie {
   final double rating;
   final String releaseDate;
   String status; // 🟢 'PENDING', 'APPROVED', 'REJECTED'
+  String? category;
 
   Movie({
     required this.id,
@@ -23,6 +24,7 @@ class Movie {
     required this.rating,
     required this.releaseDate,
     this.status = 'PENDING', // Mặc định là Chờ duyệt
+    this.category,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class Movie {
       rating: json['rating'].toDouble(),
       releaseDate: json['releaseDate'],
       status: json['status'] ?? 'PENDING',
+      category: json['category'],
     );
   }
 
@@ -54,6 +57,7 @@ class Movie {
       'rating': rating,
       'releaseDate': releaseDate,
       'status': status,
+      'category': category,
     };
   }
 }

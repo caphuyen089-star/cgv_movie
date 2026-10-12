@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Đảm bảo đã thêm provider vào pubspec.yaml
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-// Import toàn bộ các Provider ông đã tạo
+// Import toàn bộ các Provider
 import 'provider/user_provider.dart';
 import 'provider/movie_provider.dart';
 import 'provider/booking_provider.dart';
 import 'provider/seat_provider.dart';
-import 'provider/food_previder.dart'; // Tên file gốc của ông là food_previder
+import 'provider/food_previder.dart';
 import 'provider/ticket_provider.dart';
+import 'provider/showtime_provider.dart';
+import 'provider/review_provider.dart';
 
-// Import toàn bộ các màn hình (Pages)
+// Import các Pages
 import 'page/splash/splash_page.dart';
 import 'page/login/login_page.dart';
 import 'page/register/register_page.dart';
@@ -20,14 +24,8 @@ import 'page/seat/seat_page.dart';
 import 'page/payment/payment_page.dart';
 import 'page/profile/profile_page.dart';
 import 'page/favorite/favorite_page.dart';
-import 'page/ticket/my_ticket_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'page/ticket/ticket_history_page.dart';
 import 'page/admin/room_management_page.dart';
-import 'provider/showtime_provider.dart';
-import 'provider/review_provider.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +50,7 @@ void main() async {
     ),
   );
 }
+
 class MovieBookingApp extends StatelessWidget {
   const MovieBookingApp({super.key});
 
@@ -61,7 +60,6 @@ class MovieBookingApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Movie Booking',
 
-      // Giữ nguyên Theme Dark sang xịn mịn của ông
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFF1A1A1A),
@@ -71,7 +69,7 @@ class MovieBookingApp extends StatelessWidget {
         ),
       ),
 
-      // Cấu hình định tuyến (Routes) để điều hướng Navigator.pushNamed thuận tiện
+      // Trả lại SplashPage làm màn hình bắt đầu
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashPage(),
@@ -84,9 +82,8 @@ class MovieBookingApp extends StatelessWidget {
         '/payment': (context) => const PaymentPage(),
         '/profile': (context) => const ProfilePage(),
         '/favorite': (context) => const FavoritePage(),
-        '/tickets': (context) => const MyTicketPage(),
+        '/tickets': (context) => const TicketHistoryPage(),
         '/admin_room': (context) => const RoomManagementPage(),
-        '/home': (context) => const HomePage(),
       },
     );
   }

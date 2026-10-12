@@ -274,6 +274,14 @@ class _BookingPageState extends State<BookingPage> {
                           bookingProvider.clearBooking();
                           bookingProvider.setMovie(movie);
                           
+                          final selectedDateInfo = _dates[_selectedDateIndex];
+                          final dateStr = '${selectedDateInfo['day']} (${selectedDateInfo['date']})';
+                          bookingProvider.setSchedule(
+                            date: dateStr,
+                            time: _selectedTime ?? '19:00',
+                            cinemaName: _selectedTheaterName ?? 'CGV Cinema',
+                          );
+
                           Navigator.pushNamed(context, '/seat');
                         },
                   child: Text(
